@@ -1,7 +1,7 @@
 {
   "name": "jaxa",
   "version": "1.0.0",
-  "description": "Easy and intuitive request module",
+  "description": "Jaxa is a lightweight NodeJS script wich can make transparents HTTP & HTTPS requests across the web.",
   "main": "index.js",
   "type": "module",
   "author": "Patrick",
