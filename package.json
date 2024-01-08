@@ -1,0 +1,9 @@
+{
+  "name": "jaxa",
+  "version": "1.0.0",
+  "description": "Easy and intuitive request module",
+  "main": "index.js",
+  "type": "module",
+  "author": "Patrick",
+  "license": "ISC"
+}
