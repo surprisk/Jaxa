@@ -33,8 +33,6 @@ export function Jaxa(){
 
     const item = this;
 
-    console.log(argumentsArray)
-
     return new Promise(
         (resolve, reject) => {
         protocols[protocol].request(...argumentsArray, (res) => {
