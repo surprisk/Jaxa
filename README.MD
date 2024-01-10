@@ -7,7 +7,7 @@ Jaxa is a lightweight NodeJS script wich can make transparents HTTP & HTTPS requ
 Install Jaxa with npm
 
 ```bash
-
+npm i jaxa
 ```
 ## Documentation
 
