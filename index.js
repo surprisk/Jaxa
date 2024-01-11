@@ -22,12 +22,14 @@ export default class Jaxa{
     
         return new Promise(
             (resolve, reject) => {
-            protocols[protocol].request(...requestArguments, (res) => {
+            protocols[protocol].request(...requestArguments, callbacks.callback ? (res) => callbacks.callback.apply(item, [res, resolve, reject])  : (res) => {
                 let data = '';
     
                 res
                 .on('data', (chunk) => {
-                    data += callbacks.data ? callbacks.data.apply(item, [chunk]) : chunk;
+                    callbacks.data ?
+                        callbacks.data.apply(item, [chunk, data]) :
+                        data += chunk;
                 })
                 .on('end', () => {
                     resolve(callbacks.end ? callbacks.end.apply(item, [data]) : data);
@@ -47,75 +49,71 @@ export default class Jaxa{
     get(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        requestArguments[requestArguments.length-1].method = 'GET';
-
-        return this.request(...requestArguments, callbacks);
+        return this.request(...overrideMethod(requestArguments, 'GET'), callbacks);
     }
 
     post(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        requestArguments[requestArguments.length-1].method = 'POST';
-
-        return this.request(...requestArguments, callbacks);
+        return this.request(...overrideMethod(requestArguments, 'POST'), callbacks);
     }
 
     put(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        requestArguments[requestArguments.length-1].method = 'PUT';
-
-        return this.request(...requestArguments, callbacks);
+        return this.request(...overrideMethod(requestArguments, 'PUT'), callbacks);
     }
 
     delete(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        requestArguments[requestArguments.length-1].method = 'DELETE';
-
-        return this.request(...requestArguments, callbacks);
+        return this.request(...overrideMethod(requestArguments, 'DELETE'), callbacks);
     }
 
     connect(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        requestArguments[requestArguments.length-1].method = 'CONNECT';
-
-        return this.request(...requestArguments, callbacks);
+        return this.request(...overrideMethod(requestArguments, 'CONNECT'), callbacks);
     }
 
     options(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        requestArguments[requestArguments.length-1].method = 'OPTIONS';
-
-        return this.request(...requestArguments, callbacks);
+        return this.request(...overrideMethod(requestArguments, 'OPTIONS'), callbacks);
     }
 
     trace(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        requestArguments[requestArguments.length-1].method = 'TRACE';
-
-        return this.request(...requestArguments, callbacks);
+        return this.request(...overrideMethod(requestArguments, 'TRACE'), callbacks);
     }
 
     patch(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        requestArguments[requestArguments.length-1].method = 'PATCH';
-
-        return this.request(...requestArguments, callbacks);
+        return this.request(...overrideMethod(requestArguments, 'PATCH'), callbacks);
     }
 
     head(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        requestArguments[requestArguments.length-1].method = 'HEAD';
-
-        return this.request(...requestArguments, callbacks);
+        return this.request(...overrideMethod(requestArguments, 'HEAD'), callbacks);
     }
 
+}
+
+function overrideMethod(array, method){
+    const lastArgument = getLastArgument(array);
+
+    typeof lastArgument == 'string' ?
+        array.push({method}) :
+        lastArgument.method = method
+
+    return array;
+}
+
+function getLastArgument(array){
+    return array[array.length-1];
 }
 
 function surchage(){
@@ -131,7 +129,7 @@ function surchage(){
         break;
         case 2:
             const objectKeys = Object.keys(surchageArguments.requestArguments[1])
-            if(['data', 'end', 'error'].filter((key) => objectKeys.includes(key)).length > 0 || objectKeys.length == 0)
+            if(['data', 'end', 'error', 'callback'].filter((key) => objectKeys.includes(key)).length > 0 || objectKeys.length == 0)
                 surchageArguments.callbacks = surchageArguments.requestArguments.pop();
         break;
         case 3:
