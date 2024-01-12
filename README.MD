@@ -14,28 +14,29 @@ npm i jaxa
 ### Jaxa.request(url[, options][, callbacks])
 ### Jaxa.request(options[, callbacks])
 
-- `url` <string>
-- `options` <Object>
+- `url` \<string\>
+- `options` \<Object\>
     - Refere to [node:https documention](https://nodejs.org/api/https.html#httpsrequesturl-options-callback) for options argument.
-- `callbacks` <Object>
-    - `data` <function>
-    - `end` <function>
-    - `error` <function>
-    - `callback` <function>
-- Returns: <Promise>
+- `callbacks` \<Object\>
+    - `data` \<function\>
+    - `end` \<function\>
+    - `error` \<function\>
+    - `callback` \<function\>
+- Returns: \<Promise\>
 
 Request method can be surchaged if you don't want to use an URL. `options` argument is based on the http & https nodejs documention, check the [documention](https://nodejs.org/api/https.html#httpsrequesturl-options-callback) for more details.
 In addition, Jaxa allow callback fonctions during the lifecycle request.
 
 > [!NOTE]
 > We added `body` attribute in `options` argument to provide you a way to send data. `body` accept **ONLY** string.
+
 ### Callbacks
 
 Callbacks can modify Jaxa comportement during his lifecycle. There is three hooks thats you can define:
 
 - `data`: Data callback give you `chunk` variable which is received during call consumption and `data` which is received content since the start of the query. By default, Jaxa concatenates these chunks into data variable.
 - `end`: End callback give you `end` variable. In simple terms, this is the result of concatenating the chunks, i.e. the final result of the query.
-- `error`: Error callback give you `error` variable, which describe error during request process.
+- `error`: Error callback give you `error` variable, which describe error during request process.  
 
 > [!TIP]
 > Lifecycle hook can be overriden when `callback` attribute is declared in callbacks argument. `callback`function give you three variables, first one is HTTP/HTTPS response, second and third are resolve and reject function of the promise.
