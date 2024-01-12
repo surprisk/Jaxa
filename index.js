@@ -9,7 +9,9 @@ export default class Jaxa{
     }
 
     request(){
+        const item = this;
         const { requestArguments, callbacks } = surchage(...arguments);
+        const options = getLastArgument(requestArguments);
 
         const protocol = typeof requestArguments[0] == "string" ? 
             new URL(requestArguments[0]).protocol.slice(0, -1) :
@@ -18,11 +20,9 @@ export default class Jaxa{
         if(!protocols[protocol])
             throw Error('Wrong protocol');
     
-        const item = this;
-    
         return new Promise(
             (resolve, reject) => {
-            protocols[protocol].request(...requestArguments, callbacks.callback ? (res) => callbacks.callback.apply(item, [res, resolve, reject])  : (res) => {
+            const req = protocols[protocol].request(...requestArguments, callbacks.callback ? (res) => callbacks.callback.apply(item, [res, resolve, reject])  : (res) => {
                 let data = '';
     
                 res
@@ -42,7 +42,11 @@ export default class Jaxa{
             .on("error", (err) => {
                 console.log(err)
             })
-            .end();
+
+            if(options.body)
+                req.write(options.body)
+            
+            req.end();
         });
     }
 
