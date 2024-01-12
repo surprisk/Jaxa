@@ -84,7 +84,7 @@ jaxa.post('https://jsonplaceholder.typicode.com/posts', {
 })
 .then(res => console.log(res))
 
-// Pre implemented patch method with redifined callback
+// Pre implemented method 'PATCH' with redifined callback
 jaxa.patch({
     body: JSON.stringify({
         title: 'foo',
