@@ -1,7 +1,7 @@
 
 # Jaxa
 
-Jaxa is a lightweight NodeJS script wich can make transparents HTTP & HTTPS requests across the web.
+Jaxa is a lightweight NodeJS class wich can make transparents HTTP & HTTPS requests across the web.
 ## Installation
 
 Install Jaxa with npm

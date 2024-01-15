@@ -13,7 +13,8 @@
     "http",
     "https",
     "requests",
-    "node"
+    "node",
+    "ajax"
   ],
   "type": "module",
   "author": "surprisk (Patrick)",
