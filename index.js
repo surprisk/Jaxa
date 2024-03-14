@@ -26,7 +26,7 @@ module.exports = class Jaxa{
             default:
                 throw Error(`Two or less arguments expected but ${argumentsArray.length} given`)
         }
-            
+
     }
 
     request(){
@@ -63,9 +63,6 @@ module.exports = class Jaxa{
                     reject(callbacks.error ? callbacks.error.apply(item, [err]) : err);
                 })
     
-            })
-            .on("error", (err) => {
-                console.log(err)
             })
 
             if(options.body)
@@ -140,7 +137,6 @@ function overrideOptions(array, options, force = false){
             array.splice(-1, 1, { ...lastArgument, ...options }) :
             array.splice(-1, 1, { ...options, ...lastArgument})
 
-    console.log(array)
     return array;
 }
 
