@@ -63,9 +63,9 @@ Pre implemented methods are simply a rewrite of arguments passed to `request`fun
 ### Example
 
 ``` 
-import Jaxa from 'Jaxa';
+const Jaxa = require('Jaxa');
 
-const new jaxa = new Jaxa();
+const jaxa = new Jaxa();
 
 // Historical Jaxa script function
 jaxa.request('https://jsonplaceholder.typicode.com/posts/1')

@@ -1,9 +1,9 @@
-import https from "https";
-import http from "http";
+const https = require("https");
+const http = require("http");
 
 const protocols = { https, http };
 
-export default class Jaxa{
+module.exports = class Jaxa{
     constructor(){
         const argumentsArray = Object.values(arguments)
         
@@ -31,7 +31,10 @@ export default class Jaxa{
 
     request(){
         const item = this;
-        const { requestArguments, callbacks } = surchage(...arguments);
+        let { requestArguments, callbacks } = surchage(...arguments);
+
+        if(this.default.options)
+            requestArguments = overrideOptions(requestArguments, this.default.options)
 
         const options = getLastArgument(requestArguments);
 
@@ -46,7 +49,7 @@ export default class Jaxa{
             (resolve, reject) => {
             const req = protocols[protocol].request(...requestArguments, callbacks.callback ? (res) => callbacks.callback.apply(item, [res, resolve, reject])  : (res) => {
                 let data = [];
-    
+
                 res
                 .on('data', (chunk) => {
                     callbacks.data ?
@@ -75,66 +78,69 @@ export default class Jaxa{
     get(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        return this.request(...overrideMethod(requestArguments, 'GET'), callbacks);
+        return this.request(...overrideOptions(requestArguments, { method: 'GET' }, true), callbacks);
     }
 
     post(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        return this.request(...overrideMethod(requestArguments, 'POST'), callbacks);
+        return this.request(...overrideOptions(requestArguments, { method: 'POST' }, true), callbacks);
     }
 
     put(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        return this.request(...overrideMethod(requestArguments, 'PUT'), callbacks);
+        return this.request(...overrideOptions(requestArguments, { method: 'PUT' }, true), callbacks);
     }
 
     delete(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        return this.request(...overrideMethod(requestArguments, 'DELETE'), callbacks);
+        return this.request(...overrideOptions(requestArguments, { method: 'DELETE' }, true), callbacks);
     }
 
     connect(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        return this.request(...overrideMethod(requestArguments, 'CONNECT'), callbacks);
+        return this.request(...overrideOptions(requestArguments, { method: 'CONNECT' }, true), callbacks);
     }
 
     options(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        return this.request(...overrideMethod(requestArguments, 'OPTIONS'), callbacks);
+        return this.request(...overrideOptions(requestArguments, { method: 'OPTIONS' }, true), callbacks);
     }
 
     trace(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        return this.request(...overrideMethod(requestArguments, 'TRACE'), callbacks);
+        return this.request(...overrideOptions(requestArguments, { method: 'TRACE' }, true), callbacks);
     }
 
     patch(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        return this.request(...overrideMethod(requestArguments, 'PATCH'), callbacks);
+        return this.request(...overrideOptions(requestArguments, { method: 'PATCH' }, true), callbacks);
     }
 
     head(){
         const { requestArguments, callbacks } = surchage(...arguments);
 
-        return this.request(...overrideMethod(requestArguments, 'HEAD'), callbacks);
+        return this.request(...overrideOptions(requestArguments, { method: 'HEAD' }, true), callbacks);
     }
 
 }
 
-function overrideMethod(array, method){
-    const lastArgument = getLastArgument(array);
+function overrideOptions(array, options, force = false){
+    let lastArgument = getLastArgument(array);
 
     typeof lastArgument == 'string' ?
-        array.push({method}) :
-        lastArgument.method = method
+        array.push(options) : 
+        force ?
+            array.splice(-1, 1, { ...lastArgument, ...options }) :
+            array.splice(-1, 1, { ...options, ...lastArgument})
 
+    console.log(array)
     return array;
 }
 
