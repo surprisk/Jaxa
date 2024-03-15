@@ -30,6 +30,14 @@ In addition, Jaxa allow callback fonctions during the lifecycle request.
 > [!NOTE]
 > We added `body` attribute in `options` argument to provide you a way to send data. `body` accept **ONLY** string.
 
+### Constructor
+
+Jaxa's constructor lets you define default parameters for future queries. They are not definitive and can be rewritten with each call.
+
+### Jaxa([, options][, callbacks])
+### Jaxa(options)
+### Jaxa(callbacks)
+
 ### Callbacks
 
 Callbacks can modify Jaxa comportement during his lifecycle. There is three hooks thats you can define:
