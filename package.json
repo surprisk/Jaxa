@@ -1,6 +1,6 @@
 {
   "name": "jaxa",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Jaxa is a lightweight NodeJS class wich can make transparents HTTP & HTTPS requests across the web.",
   "main": "index.js",
   "homepage": "https://github.com/surprisk/Jaxa",
@@ -13,9 +13,9 @@
     "http",
     "https",
     "requests",
-    "node"
+    "node",
+    "ajax"
   ],
-  "type": "module",
   "author": "surprisk (Patrick)",
   "license": "ISC"
 }

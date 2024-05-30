@@ -1,7 +1,7 @@
 
 # Jaxa
 
-Jaxa is a lightweight NodeJS script wich can make transparents HTTP & HTTPS requests across the web.
+Jaxa is a lightweight NodeJS class wich can make transparents HTTP & HTTPS requests across the web.
 ## Installation
 
 Install Jaxa with npm
@@ -29,6 +29,14 @@ In addition, Jaxa allow callback fonctions during the lifecycle request.
 
 > [!NOTE]
 > We added `body` attribute in `options` argument to provide you a way to send data. `body` accept **ONLY** string.
+
+### Constructor
+
+Jaxa's constructor lets you define default parameters for future queries. They are not definitive and can be rewritten with each call.
+
+### Jaxa([, options][, callbacks])
+### Jaxa(options)
+### Jaxa(callbacks)
 
 ### Callbacks
 
@@ -63,9 +71,9 @@ Pre implemented methods are simply a rewrite of arguments passed to `request`fun
 ### Example
 
 ``` 
-import Jaxa from 'Jaxa';
+const Jaxa = require('Jaxa');
 
-const new jaxa = new Jaxa();
+const jaxa = new Jaxa();
 
 // Historical Jaxa script function
 jaxa.request('https://jsonplaceholder.typicode.com/posts/1')
